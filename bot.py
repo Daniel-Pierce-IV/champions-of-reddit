@@ -42,5 +42,12 @@ for post in all_sub.top(time_filter="day", limit=10):
                      post.subreddit.display_name +
                      "/comments/" + post.id + ").\""
         )
+        
+        # leave a comment on the new champion's "winning" post, letting them know they have been recorded
+        post.reply(
+            "#Praise be to the newest Champion of Reddit, u/" +
+            post.author.name +
+            "!\n\n[Let us not forget the Champions of yore...](https://www.reddit.com/r/ChampionsOfReddit/)"
+        )
 
         break
