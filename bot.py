@@ -5,9 +5,17 @@ import datetime
 now = datetime.datetime.now()
 filename = "champions.txt"
 
-# Use simple text file storage for champion names
+# get the relevant subreddits
+reddit = praw.Reddit("bot1")
+all_sub = reddit.subreddit("all")
+champion_sub = reddit.subreddit("ChampionsOfReddit")
+
+# build a new champion names file if one doesn't currently exist
 if not os.path.isfile(filename):
     champion_names = []
+
+    for post in champion_sub.submissions():
+        champion_names.append(post.title)
 else:
     with open(filename, "r") as f:
         champion_names = f.read()
@@ -15,11 +23,6 @@ else:
 
         # remove errant entries
         champion_names = list(filter(None, champion_names))
-
-# get the relevant subreddits
-reddit = praw.Reddit("bot1")
-all_sub = reddit.subreddit("all")
-champion_sub = reddit.subreddit("ChampionsOfReddit")
 
 # find today's "Champion of Reddit", avoiding users who have been championed already
 for post in all_sub.top(time_filter="day", limit=10):
